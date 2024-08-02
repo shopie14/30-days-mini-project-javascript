@@ -4,9 +4,14 @@ const apiUrl = "https://api.weatherapi.com/v1/current.json?q=";
 const searchBox = document.querySelector(".search input");
 const searchBtn = document.querySelector(".search button");
 const weatherIcon = document.querySelector(".weather-icon");
+const loadingElement = document.querySelector(".loading");
 
 async function checkWeather(city) {
   try {
+    loadingElement.style.display = "block";
+    document.querySelector(".error").style.display = "none";
+    document.querySelector(".weather").style.display = "none";
+
     const response = await fetch(apiUrl + city + `&key=${apiKey}`);
 
     if (response.status === 400) {
@@ -43,6 +48,8 @@ async function checkWeather(city) {
     }
   } catch (error) {
     console.error("Error fetching weather data:", error);
+  } finally {
+    loadingElement.style.display = "none";
   }
 }
 
